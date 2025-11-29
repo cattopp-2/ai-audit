@@ -770,6 +770,13 @@
                                 <input type="checkbox" id="client_source_7" name="client_sources[]" value="Inconsistent/unclear">
                                 <label for="client_source_7">It's inconsistent/unclear</label>
                             </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="client_source_other" name="client_sources[]" value="Other">
+                                <label for="client_source_other">Other</label>
+                            </div>
+                            <div class="other-input" id="client_source_other_input">
+                                <input type="text" name="client_sources_other" placeholder="Please specify...">
+                            </div>
                         </div>
                     </div>
 
@@ -803,28 +810,33 @@
 
                     <div class="question">
                         <label class="question-label">
-                            14. How consistent is your content marketing? <span class="question-type">(choose one only)</span> <span class="required">*</span>
+                            14. How consistent is your content creation? <span class="question-type">(check all that apply)</span>
                         </label>
-                        <div class="radio-group">
-                            <div class="radio-item">
-                                <input type="radio" id="content_1" name="content_consistency" value="Wing it" required>
-                                <label for="content_1">What content marketing? I wing it</label>
+                        <div class="help-text">Content includes blogs, social media posts, videos, podcasts, etc.</div>
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="content_1" name="content_consistency[]" value="Not consistent - ad-hoc">
+                                <label for="content_1">Not consistent, content is created ad-hoc</label>
                             </div>
-                            <div class="radio-item">
-                                <input type="radio" id="content_2" name="content_consistency" value="Occasionally">
-                                <label for="content_2">Post occasionally when inspired</label>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="content_2" name="content_consistency[]" value="Occasionally when inspired">
+                                <label for="content_2">Create content occasionally when inspired</label>
                             </div>
-                            <div class="radio-item">
-                                <input type="radio" id="content_3" name="content_consistency" value="Batch but struggle">
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="content_3" name="content_consistency[]" value="Batch but struggle">
                                 <label for="content_3">Batch content but struggle to stay consistent</label>
                             </div>
-                            <div class="radio-item">
-                                <input type="radio" id="content_4" name="content_consistency" value="Very consistent">
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="content_4" name="content_consistency[]" value="Very consistent">
                                 <label for="content_4">Very consistent - I have a system</label>
                             </div>
-                            <div class="radio-item">
-                                <input type="radio" id="content_5" name="content_consistency" value="Team helps">
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="content_5" name="content_consistency[]" value="Team helps">
                                 <label for="content_5">I have a team that helps with content</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="content_6" name="content_consistency[]" value="Don't rely on content">
+                                <label for="content_6">I don't rely on content creation for my leads</label>
                             </div>
                         </div>
                         <div class="specify-input" id="content_system_input">
@@ -832,6 +844,12 @@
                                 Tell us about your content system:
                             </label>
                             <textarea name="content_system" placeholder="What tools do you use? How often do you batch? What's your process?"></textarea>
+                        </div>
+                        <div class="specify-input" id="content_alternative_input">
+                            <label class="question-label" style="margin-top: 15px;">
+                                What do you do instead for lead generation?
+                            </label>
+                            <textarea name="content_alternative" placeholder="If you don't rely on content, how do you generate leads?"></textarea>
                         </div>
                     </div>
 
@@ -938,9 +956,9 @@
                     </div>
                 </div>
 
-                <!-- PAGE 7: Revenue & Growth Goals -->
-                <div class="page" data-page="7">
-                    <div class="page-indicator">Page 7 of 10</div>
+                <!-- PAGE 9: Revenue & Growth Goals -->
+                <div class="page" data-page="9">
+                    <div class="page-indicator">Page 9 of 10</div>
                     <div class="section-header">
                         <h2>Revenue & Growth Goals</h2>
                         <p>Understanding your growth ambitions and revenue targets</p>
@@ -1022,7 +1040,7 @@
                     </div>
                 </div>
 
-                <!-- PAGE 8: Team Overview -->
+                <!-- PAGE 8: Your Team -->
                 <div class="page" data-page="8">
                     <div class="page-indicator">Page 8 of 10</div>
                     <div class="section-header">
@@ -1150,9 +1168,9 @@
                     </div>
                 </div>
 
-                <!-- PAGE 9: About Your Business -->
-                <div class="page" data-page="9">
-                    <div class="page-indicator">Page 9 of 10</div>
+                <!-- PAGE 10: About Your Business -->
+                <div class="page" data-page="10">
+                    <div class="page-indicator">Page 10 of 10</div>
                     <div class="section-header">
                         <h2>About Your Business</h2>
                         <p>Help us understand what makes you unique</p>
@@ -1188,13 +1206,26 @@
 
                     <div class="navigation-buttons">
                         <button type="button" class="btn btn-previous" onclick="previousPage()">Previous</button>
-                        <button type="button" class="btn btn-next" onclick="nextPage()">Next</button>
+                        <button type="button" class="btn btn-submit" onclick="submitForm(event)">Get My AI Audit</button>
+                    </div>
+
+                    <div class="loading" id="loading">
+                        <p>Submitting your assessment... This may take a moment.</p>
+                    </div>
+                    <div class="success-message" id="successMessage">
+                        <h3>✅ Assessment Submitted Successfully!</h3>
+                        <p>Thank you! Your personalised AI Audit will be ready within 24-48 hours.</p>
+                        <p>Check your email for confirmation and next steps.</p>
+                    </div>
+                    <div class="error-message" id="errorMessage">
+                        <h3>⚠️ Oops! Something went wrong.</h3>
+                        <p id="errorText">There was an error submitting your assessment. Please try again or contact support.</p>
                     </div>
                 </div>
 
-                <!-- PAGE 10: Software & Tech Stack -->
-                <div class="page" data-page="10">
-                    <div class="page-indicator">Page 10 of 10</div>
+                <!-- PAGE 7: Software & Tech Stack -->
+                <div class="page" data-page="7">
+                    <div class="page-indicator">Page 7 of 10</div>
                     <div class="section-header">
                         <h2>Software & Tech Stack</h2>
                         <p>Understanding current tools and technical frustrations</p>
@@ -1306,20 +1337,7 @@
 
                     <div class="navigation-buttons">
                         <button type="button" class="btn btn-previous" onclick="previousPage()">Previous</button>
-                        <button type="button" class="btn btn-submit" onclick="submitForm(event)">Get My AI Audit</button>
-                    </div>
-
-                    <div class="loading" id="loading">
-                        <p>Submitting your assessment... This may take a moment.</p>
-                    </div>
-                    <div class="success-message" id="successMessage">
-                        <h3>✅ Assessment Submitted Successfully!</h3>
-                        <p>Thank you! Your personalised AI Audit will be ready within 24-48 hours.</p>
-                        <p>Check your email for confirmation and next steps.</p>
-                    </div>
-                    <div class="error-message" id="errorMessage">
-                        <h3>⚠️ Oops! Something went wrong.</h3>
-                        <p id="errorText">There was an error submitting your assessment. Please try again or contact support.</p>
+                        <button type="button" class="btn btn-next" onclick="nextPage()">Next</button>
                     </div>
                 </div>
 
@@ -1356,17 +1374,25 @@
             document.getElementById('tool_other_input').classList.toggle('active', this.checked);
         });
 
+        // Show client source other input
+        document.getElementById('client_source_other').addEventListener('change', function() {
+            document.getElementById('client_source_other_input').classList.toggle('active', this.checked);
+        });
+
         // Show community platform specify input
         document.getElementById('support_3').addEventListener('change', function() {
             document.getElementById('support_3_specify').classList.toggle('active', this.checked);
         });
 
-        // Show content system input when they have a system
-        const contentRadios = document.getElementsByName('content_consistency');
-        contentRadios.forEach(radio => {
-            radio.addEventListener('change', function() {
-                const showInput = this.value === 'Very consistent' || this.value === 'Team helps';
-                document.getElementById('content_system_input').classList.toggle('active', showInput);
+        // Show content system input when they have a system, or alternative input when they don't rely on content
+        const contentCheckboxes = document.querySelectorAll('[name="content_consistency[]"]');
+        contentCheckboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', function() {
+                const systemChecked = document.getElementById('content_4').checked || document.getElementById('content_5').checked;
+                const alternativeChecked = document.getElementById('content_6').checked;
+                
+                document.getElementById('content_system_input').classList.toggle('active', systemChecked);
+                document.getElementById('content_alternative_input').classList.toggle('active', alternativeChecked);
             });
         });
 
@@ -1394,6 +1420,47 @@
         // Navigation functions
         function nextPage() {
             if (currentPage < totalPages) {
+                // Validate current page before moving forward
+                const currentPageElement = document.querySelector(`.page[data-page="${currentPage}"]`);
+                const requiredFields = currentPageElement.querySelectorAll('[required]');
+                let allValid = true;
+                
+                // Check all required fields
+                requiredFields.forEach(field => {
+                    if (field.type === 'radio') {
+                        const radioGroup = currentPageElement.querySelectorAll(`[name="${field.name}"]`);
+                        const isChecked = Array.from(radioGroup).some(radio => radio.checked);
+                        if (!isChecked) {
+                            allValid = false;
+                            // Highlight the question
+                            field.closest('.question').style.borderLeft = '4px solid #F6AD55';
+                            field.closest('.question').style.paddingLeft = '15px';
+                        } else {
+                            field.closest('.question').style.borderLeft = 'none';
+                            field.closest('.question').style.paddingLeft = '0';
+                        }
+                    } else if (field.type === 'text' || field.type === 'email' || field.tagName === 'TEXTAREA') {
+                        if (!field.value.trim()) {
+                            allValid = false;
+                            field.style.borderColor = '#F6AD55';
+                            field.style.borderWidth = '2px';
+                        } else {
+                            field.style.borderColor = '#e0e0e0';
+                        }
+                    }
+                });
+                
+                if (!allValid) {
+                    // Show error message
+                    alert('Please fill in all required fields before continuing.');
+                    // Scroll to first invalid field
+                    const firstInvalid = currentPageElement.querySelector('[required]:invalid, [required][style*="border-color: rgb(246, 173, 85)"]');
+                    if (firstInvalid) {
+                        firstInvalid.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
+                    return;
+                }
+                
                 // Hide current page
                 document.querySelector(`.page[data-page="${currentPage}"]`).classList.remove('active');
                 
