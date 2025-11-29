@@ -1,0 +1,1529 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Audit | Your Web Toolkit</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #215E8D 0%, #1a4a6d 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+        }
+
+        .header {
+            background: #215E8D;
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.95;
+            line-height: 1.5;
+        }
+
+        .form-content {
+            padding: 40px;
+        }
+
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        .section-header {
+            background: #f8f9fa;
+            padding: 15px 20px;
+            margin: -20px -20px 30px -20px;
+            border-left: 4px solid #F6AD55;
+        }
+
+        .section-header h2 {
+            color: #215E8D;
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+        }
+
+        .section-header p {
+            color: #666;
+            font-size: 0.95rem;
+        }
+
+        .question {
+            margin-bottom: 30px;
+        }
+
+        .question-label {
+            display: block;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 12px;
+            font-size: 1.05rem;
+        }
+
+        .required {
+            color: #F6AD55;
+            margin-left: 4px;
+        }
+
+        .question-type {
+            color: #666;
+            font-size: 0.85rem;
+            font-weight: 400;
+            font-style: italic;
+            margin-left: 8px;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        textarea,
+        select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-family: inherit;
+            transition: border-color 0.3s;
+        }
+
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        textarea:focus,
+        select:focus {
+            outline: none;
+            border-color: #215E8D;
+        }
+
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .checkbox-group,
+        .radio-group {
+            margin-top: 10px;
+        }
+
+        .checkbox-item,
+        .radio-item {
+            margin-bottom: 12px;
+            display: flex;
+            align-items: flex-start;
+        }
+
+        input[type="checkbox"],
+        input[type="radio"] {
+            margin-right: 10px;
+            margin-top: 4px;
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            accent-color: #215E8D;
+        }
+
+        .checkbox-item label,
+        .radio-item label {
+            cursor: pointer;
+            font-size: 1rem;
+            color: #333;
+            flex: 1;
+        }
+
+        .other-input {
+            margin-top: 10px;
+            margin-left: 28px;
+            display: none;
+        }
+
+        .other-input.active {
+            display: block;
+        }
+
+        .specify-input {
+            margin-left: 28px;
+            margin-top: 8px;
+            max-width: 400px;
+            display: none;
+        }
+
+        .specify-input.active {
+            display: block;
+        }
+
+        .conditional-section {
+            display: none;
+            margin-top: 20px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #F6AD55;
+        }
+
+        .conditional-section.active {
+            display: block;
+        }
+
+        .progress-bar {
+            position: sticky;
+            top: 0;
+            background: white;
+            padding: 15px 40px;
+            border-bottom: 2px solid #f0f0f0;
+            z-index: 100;
+        }
+
+        .progress-bar-bg {
+            height: 8px;
+            background: #e0e0e0;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background: #215E8D;
+            border-radius: 4px;
+            transition: width 0.3s ease;
+            position: relative;
+        }
+
+        .progress-bar-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .progress-text {
+            text-align: center;
+            margin-top: 8px;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .navigation-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 2px solid #f0f0f0;
+        }
+
+        .btn {
+            padding: 14px 30px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-previous {
+            background: #e0e0e0;
+            color: #333;
+        }
+
+        .btn-previous:hover {
+            background: #d0d0d0;
+        }
+
+        .btn-next {
+            background: #215E8D;
+            color: white;
+        }
+
+        .btn-next:hover {
+            background: #1a4a6d;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(33, 94, 141, 0.3);
+        }
+
+        .btn-submit {
+            background: #F6AD55;
+            color: #000;
+        }
+
+        .btn-submit:hover {
+            background: #e69d45;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(246, 173, 85, 0.4);
+        }
+
+        .btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .loading.active {
+            display: block;
+        }
+
+        .success-message,
+        .error-message {
+            display: none;
+            padding: 30px;
+            border-radius: 8px;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .success-message {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .error-message {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .success-message.active,
+        .error-message.active {
+            display: block;
+        }
+
+        .success-message h3,
+        .error-message h3 {
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8rem;
+            }
+
+            .form-content {
+                padding: 25px;
+            }
+
+            .section-header {
+                margin: -15px -15px 20px -15px;
+            }
+
+            .btn {
+                padding: 12px 24px;
+                font-size: 1rem;
+            }
+        }
+
+        .help-text {
+            font-size: 0.85rem;
+            color: #666;
+            margin-top: 5px;
+            font-style: italic;
+        }
+
+        .page-indicator {
+            text-align: center;
+            color: #999;
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>AI Audit</h1>
+            <p>Discover exactly where AI can save you time and increase revenue in your business</p>
+        </div>
+
+        <div class="progress-bar">
+            <div class="progress-bar-bg">
+                <div class="progress-bar-fill" id="progressBar" style="width: 0%"></div>
+            </div>
+            <div class="progress-text" id="progressText">Step 1 of 10</div>
+        </div>
+
+        <div class="form-content">
+            <form id="auditForm">
+                
+                <!-- PAGE 1: Contact Information -->
+                <div class="page active" data-page="1">
+                    <div class="page-indicator">Page 1 of 10</div>
+                    <div class="section-header">
+                        <h2>Your Details</h2>
+                        <p>So we can send you your personalised audit report</p>
+                    </div>
+
+                    <div class="question">
+                        <label class="question-label">
+                            First Name <span class="required">*</span>
+                        </label>
+                        <input type="text" name="first_name" required>
+                    </div>
+
+                    <div class="question">
+                        <label class="question-label">
+                            Email Address <span class="required">*</span>
+                        </label>
+                        <input type="email" name="email" required>
+                    </div>
+
+                    <div class="question">
+                        <label class="question-label">
+                            Business Name
+                        </label>
+                        <input type="text" name="business_name">
+                    </div>
+
+                    <div class="navigation-buttons">
+                        <div></div>
+                        <button type="button" class="btn btn-next" onclick="nextPage()">Next</button>
+                    </div>
+                </div>
+
+                <!-- PAGE 2: Business Overview -->
+                <div class="page" data-page="2">
+                    <div class="page-indicator">Page 2 of 10</div>
+                    <div class="section-header">
+                        <h2>Business Overview</h2>
+                        <p>Understanding your business model and current operations</p>
+                    </div>
+
+                    <div class="question">
+                        <label class="question-label">
+                            1. What's your primary business model? <span class="question-type">(check all that apply)</span>
+                        </label>
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="biz_model_1" name="business_model[]" value="1:1 Services">
+                                <label for="biz_model_1">1:1 Services (coaching, consulting, therapy)</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="biz_model_2" name="business_model[]" value="Group Programmes/Courses">
+                                <label for="biz_model_2">Group Programmes/Courses</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="biz_model_3" name="business_model[]" value="Hybrid">
+                                <label for="biz_model_3">Hybrid (1:1 + Group)</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="biz_model_4" name="business_model[]" value="Physical Products">
+                                <label for="biz_model_4">Physical Products</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="biz_model_other" name="business_model[]" value="Other">
+                                <label for="biz_model_other">Other</label>
+                            </div>
+                            <div class="other-input" id="biz_model_other_input">
+                                <input type="text" name="business_model_other" placeholder="Please specify...">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="question">
+                        <label class="question-label">
+                            2. How many clients/customers do you serve per month? <span class="question-type">(choose one only)</span> <span class="required">*</span>
+                        </label>
+                        <div class="radio-group">
+                            <div class="radio-item">
+                                <input type="radio" id="clients_1" name="monthly_clients" value="1-5" required>
+                                <label for="clients_1">1-5</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="clients_2" name="monthly_clients" value="6-15">
+                                <label for="clients_2">6-15</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="clients_3" name="monthly_clients" value="16-30">
+                                <label for="clients_3">16-30</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="clients_4" name="monthly_clients" value="31-50">
+                                <label for="clients_4">31-50</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="clients_5" name="monthly_clients" value="50+">
+                                <label for="clients_5">50+</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="question">
+                        <label class="question-label">
+                            3. What's your current monthly revenue? <span class="question-type">(choose one only)</span> <span class="required">*</span>
+                        </label>
+                        <div class="radio-group">
+                            <div class="radio-item">
+                                <input type="radio" id="revenue_1" name="monthly_revenue" value="Under £5K" required>
+                                <label for="revenue_1">Under £5K</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="revenue_2" name="monthly_revenue" value="£5K-£10K">
+                                <label for="revenue_2">£5K-£10K</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="revenue_3" name="monthly_revenue" value="£10K-£25K">
+                                <label for="revenue_3">£10K-£25K</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="revenue_4" name="monthly_revenue" value="£25K-£50K">
+                                <label for="revenue_4">£25K-£50K</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="revenue_5" name="monthly_revenue" value="£50K+">
+                                <label for="revenue_5">£50K+</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="navigation-buttons">
+                        <button type="button" class="btn btn-previous" onclick="previousPage()">Previous</button>
+                        <button type="button" class="btn btn-next" onclick="nextPage()">Next</button>
+                    </div>
+                </div>
+
+                <!-- PAGE 3: Time & Bottlenecks -->
+                <div class="page" data-page="3">
+                    <div class="page-indicator">Page 3 of 10</div>
+                    <div class="section-header">
+                        <h2>Time & Bottlenecks</h2>
+                        <p>Identifying where you're losing time and what's holding you back</p>
+                    </div>
+
+                    <div class="question">
+                        <label class="question-label">
+                            4. Which of the below statements describes your current situation? <span class="question-type">(check all that apply)</span>
+                        </label>
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="situation_1" name="current_situation[]" value="I'm the bottleneck">
+                                <label for="situation_1">I'm the bottleneck - everything requires my direct involvement</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="situation_2" name="current_situation[]" value="I have some systems and I manage it all">
+                                <label for="situation_2">I have some systems (software and processes for using it), and I manage it all</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="situation_3" name="current_situation[]" value="I have systems and my team manages it">
+                                <label for="situation_3">I have systems, and my team manages it</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="situation_4" name="current_situation[]" value="I have systems but they're not efficient">
+                                <label for="situation_4">I have systems, but they're not efficient</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="question">
+                        <label class="question-label">
+                            5. Time Audit - What tasks do you repeat? <span class="required">*</span>
+                        </label>
+                        <textarea name="tasks_repeat" required placeholder="E.g., answering the same client questions, creating social media posts, sending welcome emails..."></textarea>
+                    </div>
+
+                    <div class="question">
+                        <label class="question-label">
+                            6. Time Audit - Where do balls get dropped? <span class="required">*</span>
+                        </label>
+                        <textarea name="balls_dropped" required placeholder="E.g., follow-ups with prospects, client check-ins, admin tasks..."></textarea>
+                    </div>
+
+                    <div class="question">
+                        <label class="question-label">
+                            7. Time Audit - What tasks take the most time? <span class="required">*</span>
+                        </label>
+                        <textarea name="time_consuming_tasks" required placeholder="E.g., content creation, client onboarding, email management..."></textarea>
+                    </div>
+
+                    <div class="question">
+                        <label class="question-label">
+                            8. What's your biggest frustration right now? <span class="question-type">(check all that apply)</span>
+                        </label>
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="frustration_1" name="frustrations[]" value="Not enough time for marketing">
+                                <label for="frustration_1">Not enough time for marketing - clients come from referrals only</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="frustration_2" name="frustrations[]" value="Repeating myself constantly">
+                                <label for="frustration_2">Repeating myself constantly (same questions, same explanations)</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="frustration_3" name="frustrations[]" value="Can't scale">
+                                <label for="frustration_3">Can't scale beyond my own capacity</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="frustration_4" name="frustrations[]" value="Inconsistent income">
+                                <label for="frustration_4">Inconsistent income/client flow</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="frustration_5" name="frustrations[]" value="Team management">
+                                <label for="frustration_5">Team/VA management takes up too much time</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="frustration_6" name="frustrations[]" value="Team costs too high">
+                                <label for="frustration_6">Team costs are too high and reducing my profit margin</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="frustration_other" name="frustrations[]" value="Other">
+                                <label for="frustration_other">Other</label>
+                            </div>
+                            <div class="other-input" id="frustration_other_input">
+                                <input type="text" name="frustrations_other" placeholder="Please specify...">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="navigation-buttons">
+                        <button type="button" class="btn btn-previous" onclick="previousPage()">Previous</button>
+                        <button type="button" class="btn btn-next" onclick="nextPage()">Next</button>
+                    </div>
+                </div>
+
+                <!-- PAGE 4: Current AI Usage -->
+                <div class="page" data-page="4">
+                    <div class="page-indicator">Page 4 of 10</div>
+                    <div class="section-header">
+                        <h2>Current AI Usage</h2>
+                        <p>Understanding your existing AI experience and comfort level</p>
+                    </div>
+
+                    <div class="question">
+                        <label class="question-label">
+                            9. How are you currently using AI? <span class="question-type">(check all that apply)</span>
+                        </label>
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="ai_use_1" name="ai_usage[]" value="Content writing">
+                                <label for="ai_use_1">ChatGPT/Claude for content writing (social and email)</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="ai_use_2" name="ai_usage[]" value="Client support">
+                                <label for="ai_use_2">Client support/answering questions</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="ai_use_3" name="ai_usage[]" value="Research and planning">
+                                <label for="ai_use_3">Research and planning</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="ai_use_4" name="ai_usage[]" value="Custom tools">
+                                <label for="ai_use_4">Custom tools or automations</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="ai_use_5" name="ai_usage[]" value="Not using AI">
+                                <label for="ai_use_5">Not using AI at all</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="ai_use_other" name="ai_usage[]" value="Other">
+                                <label for="ai_use_other">Other</label>
+                            </div>
+                            <div class="other-input" id="ai_use_other_input">
+                                <input type="text" name="ai_usage_other" placeholder="Please specify...">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="question">
+                        <label class="question-label">
+                            10. What best describes your AI confidence level? <span class="question-type">(choose one only)</span> <span class="required">*</span>
+                        </label>
+                        <div class="radio-group">
+                            <div class="radio-item">
+                                <input type="radio" id="ai_conf_1" name="ai_confidence" value="Complete beginner" required>
+                                <label for="ai_conf_1">Complete beginner - barely touched it</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="ai_conf_2" name="ai_confidence" value="Dabbler">
+                                <label for="ai_conf_2">Dabbler - use it occasionally but not systematically</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="ai_conf_3" name="ai_confidence" value="Regular user">
+                                <label for="ai_conf_3">Regular user - it's part of my workflow</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="ai_conf_4" name="ai_confidence" value="Advanced">
+                                <label for="ai_conf_4">Advanced - I've built custom tools or automations</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="question">
+                        <label class="question-label">
+                            11. What's your biggest AI challenge right now? <span class="question-type">(choose one only)</span> <span class="required">*</span>
+                        </label>
+                        <div class="radio-group">
+                            <div class="radio-item">
+                                <input type="radio" id="ai_challenge_1" name="ai_challenge" value="Don't know where to start" required>
+                                <label for="ai_challenge_1">Don't know where to start</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="ai_challenge_2" name="ai_challenge" value="Brand voice issues">
+                                <label for="ai_challenge_2">Getting AI to sound like me (brand voice issues)</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="ai_challenge_3" name="ai_challenge" value="No time">
+                                <label for="ai_challenge_3">No time to learn/implement properly</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="ai_challenge_4" name="ai_challenge" value="Don't trust quality">
+                                <label for="ai_challenge_4">Don't trust the quality/accuracy</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="ai_challenge_5" name="ai_challenge" value="Can't see how it applies">
+                                <label for="ai_challenge_5">Can't see how it applies to my specific business</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="ai_challenge_6" name="ai_challenge" value="Want to do more">
+                                <label for="ai_challenge_6">Already using it but want to do more</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="navigation-buttons">
+                        <button type="button" class="btn btn-previous" onclick="previousPage()">Previous</button>
+                        <button type="button" class="btn btn-next" onclick="nextPage()">Next</button>
+                    </div>
+                </div>
+
+                <!-- PAGE 5: Marketing & Client Acquisition -->
+                <div class="page" data-page="5">
+                    <div class="page-indicator">Page 5 of 10</div>
+                    <div class="section-header">
+                        <h2>Marketing & Client Acquisition</h2>
+                        <p>Understanding your marketing maturity and lead generation</p>
+                    </div>
+
+                    <div class="question">
+                        <label class="question-label">
+                            12. How do most of your clients find you? <span class="question-type">(check all that apply)</span>
+                        </label>
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="client_source_1" name="client_sources[]" value="Referrals">
+                                <label for="client_source_1">Referrals/word of mouth</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="client_source_2" name="client_sources[]" value="Social media organic">
+                                <label for="client_source_2">Social media (organic)</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="client_source_3" name="client_sources[]" value="Paid advertising">
+                                <label for="client_source_3">Paid advertising</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="client_source_4" name="client_sources[]" value="Email list">
+                                <label for="client_source_4">Email list</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="client_source_5" name="client_sources[]" value="SEO/website">
+                                <label for="client_source_5">SEO/website</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="client_source_6" name="client_sources[]" value="Networking">
+                                <label for="client_source_6">Networking/speaking</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="client_source_7" name="client_sources[]" value="Inconsistent/unclear">
+                                <label for="client_source_7">It's inconsistent/unclear</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="question">
+                        <label class="question-label">
+                            13. Do you have an email list? <span class="question-type">(choose one only)</span> <span class="required">*</span>
+                        </label>
+                        <div class="radio-group">
+                            <div class="radio-item">
+                                <input type="radio" id="email_list_1" name="email_list" value="No" required>
+                                <label for="email_list_1">No</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="email_list_2" name="email_list" value="Under 250">
+                                <label for="email_list_2">Yes, under 250 subscribers</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="email_list_3" name="email_list" value="250-1000">
+                                <label for="email_list_3">Yes, 250-1,000 subscribers</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="email_list_4" name="email_list" value="1000-5000">
+                                <label for="email_list_4">Yes, 1,000-5,000 subscribers</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="email_list_5" name="email_list" value="5000+">
+                                <label for="email_list_5">Yes, 5,000+ subscribers</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="question">
+                        <label class="question-label">
+                            14. How consistent is your content marketing? <span class="question-type">(choose one only)</span> <span class="required">*</span>
+                        </label>
+                        <div class="radio-group">
+                            <div class="radio-item">
+                                <input type="radio" id="content_1" name="content_consistency" value="Wing it" required>
+                                <label for="content_1">What content marketing? I wing it</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="content_2" name="content_consistency" value="Occasionally">
+                                <label for="content_2">Post occasionally when inspired</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="content_3" name="content_consistency" value="Batch but struggle">
+                                <label for="content_3">Batch content but struggle to stay consistent</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="content_4" name="content_consistency" value="Very consistent">
+                                <label for="content_4">Very consistent - I have a system</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="content_5" name="content_consistency" value="Team helps">
+                                <label for="content_5">I have a team that helps with content</label>
+                            </div>
+                        </div>
+                        <div class="specify-input" id="content_system_input">
+                            <label class="question-label" style="margin-top: 15px;">
+                                Tell us about your content system:
+                            </label>
+                            <textarea name="content_system" placeholder="What tools do you use? How often do you batch? What's your process?"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="navigation-buttons">
+                        <button type="button" class="btn btn-previous" onclick="previousPage()">Previous</button>
+                        <button type="button" class="btn btn-next" onclick="nextPage()">Next</button>
+                    </div>
+                </div>
+
+                <!-- PAGE 6: Client Delivery & Support -->
+                <div class="page" data-page="6">
+                    <div class="page-indicator">Page 6 of 10</div>
+                    <div class="section-header">
+                        <h2>Client Delivery & Support</h2>
+                        <p>Identifying automation opportunities in client experience</p>
+                    </div>
+
+                    <div class="question">
+                        <label class="question-label">
+                            15. How do clients typically get support between sessions? <span class="question-type">(check all that apply)</span>
+                        </label>
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="support_1" name="client_support[]" value="Email/message directly">
+                                <label for="support_1">They email/message me directly (and I respond when I can)</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="support_2" name="client_support[]" value="Office hours">
+                                <label for="support_2">I have set office hours or Q&A times and they join me on Zoom (or equivalent)</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="support_3" name="client_support[]" value="Community forum">
+                                <label for="support_3">Community forum</label>
+                            </div>
+                            <div class="specify-input" id="support_3_specify">
+                                <input type="text" name="community_platform" placeholder="Which platform? (e.g., Facebook Group, Slack, Skool...)">
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="support_4" name="client_support[]" value="Figure it out">
+                                <label for="support_4">They mostly figure it out themselves</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="support_5" name="client_support[]" value="Templates/resources">
+                                <label for="support_5">I have templates/resources they can reference</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="question">
+                        <label class="question-label">
+                            16. Do you find yourself answering the same questions repeatedly? <span class="question-type">(choose one only)</span> <span class="required">*</span>
+                        </label>
+                        <div class="radio-group">
+                            <div class="radio-item">
+                                <input type="radio" id="repeat_q_1" name="repeat_questions" value="All the time" required>
+                                <label for="repeat_q_1">All the time - it's exhausting</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="repeat_q_2" name="repeat_questions" value="Sometimes">
+                                <label for="repeat_q_2">Sometimes, but it's manageable</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="repeat_q_3" name="repeat_questions" value="Rarely">
+                                <label for="repeat_q_3">Rarely - I've documented most things</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="repeat_q_4" name="repeat_questions" value="No">
+                                <label for="repeat_q_4">No, each question is unique</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="question">
+                        <label class="question-label">
+                            17. What happens when a potential client is interested in working with you? <span class="question-type">(check all that apply)</span>
+                        </label>
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="sales_1" name="sales_process[]" value="Book calendar">
+                                <label for="sales_1">They book directly into my calendar</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="sales_2" name="sales_process[]" value="Application">
+                                <label for="sales_2">They fill out an application, then I manually review and respond</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="sales_3" name="sales_process[]" value="Email">
+                                <label for="sales_3">They email me and we figure it out</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="sales_4" name="sales_process[]" value="Automated sequence">
+                                <label for="sales_4">I have an automated sequence that qualifies them first</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="sales_5" name="sales_process[]" value="Purchase directly">
+                                <label for="sales_5">They can purchase directly from my website or sales page</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="navigation-buttons">
+                        <button type="button" class="btn btn-previous" onclick="previousPage()">Previous</button>
+                        <button type="button" class="btn btn-next" onclick="nextPage()">Next</button>
+                    </div>
+                </div>
+
+                <!-- PAGE 7: Revenue & Growth Goals -->
+                <div class="page" data-page="7">
+                    <div class="page-indicator">Page 7 of 10</div>
+                    <div class="section-header">
+                        <h2>Revenue & Growth Goals</h2>
+                        <p>Understanding your growth ambitions and revenue targets</p>
+                    </div>
+
+                    <div class="question">
+                        <label class="question-label">
+                            18. What's your primary business goal for the next 6 months? <span class="question-type">(check all that apply)</span>
+                        </label>
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="goal_1" name="goals[]" value="Increase revenue">
+                                <label for="goal_1">Increase revenue without working more hours</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="goal_2" name="goals[]" value="Launch new programme">
+                                <label for="goal_2">Launch a new programme/offer</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="goal_3" name="goals[]" value="Predictable income">
+                                <label for="goal_3">Build more predictable income streams</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="goal_4" name="goals[]" value="Reduce delivery time">
+                                <label for="goal_4">Reduce time spent on delivery while maintaining quality</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="goal_5" name="goals[]" value="Scale team">
+                                <label for="goal_5">Scale team/operations</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="goal_other" name="goals[]" value="Other">
+                                <label for="goal_other">Other</label>
+                            </div>
+                            <div class="other-input" id="goal_other_input">
+                                <input type="text" name="goals_other" placeholder="Please specify...">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="question">
+                        <label class="question-label">
+                            19. If you could wave a magic wand and fix ONE issue in your business, what would it be? <span class="required">*</span>
+                        </label>
+                        <textarea name="magic_wand" required placeholder="Be as specific as possible..."></textarea>
+                    </div>
+
+                    <div class="question">
+                        <label class="question-label">
+                            20. What would an extra 20 hours per week allow you to do in your business? <span class="question-type">(check all that apply)</span>
+                        </label>
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="extra_time_1" name="extra_time[]" value="More delivery">
+                                <label for="extra_time_1">More client delivery/serving more people</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="extra_time_2" name="extra_time[]" value="Marketing">
+                                <label for="extra_time_2">Marketing and business development</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="extra_time_3" name="extra_time[]" value="Create products">
+                                <label for="extra_time_3">Create new products/programmes</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="extra_time_4" name="extra_time[]" value="Time off">
+                                <label for="extra_time_4">Finally take time off without guilt</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="extra_time_5" name="extra_time[]" value="Strategy">
+                                <label for="extra_time_5">Focus on strategy instead of execution</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="navigation-buttons">
+                        <button type="button" class="btn btn-previous" onclick="previousPage()">Previous</button>
+                        <button type="button" class="btn btn-next" onclick="nextPage()">Next</button>
+                    </div>
+                </div>
+
+                <!-- PAGE 8: Team Overview -->
+                <div class="page" data-page="8">
+                    <div class="page-indicator">Page 8 of 10</div>
+                    <div class="section-header">
+                        <h2>Your Team</h2>
+                        <p>Understanding team structure and collaboration challenges</p>
+                    </div>
+
+                    <div class="question">
+                        <label class="question-label">
+                            21. Do you have a team? <span class="required">*</span>
+                        </label>
+                        <div class="radio-group">
+                            <div class="radio-item">
+                                <input type="radio" id="has_team_no" name="has_team" value="No" required>
+                                <label for="has_team_no">No, it's just me</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="has_team_yes" name="has_team" value="Yes">
+                                <label for="has_team_yes">Yes, I have a team</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="conditional-section" id="teamQuestions">
+                        <div class="question">
+                            <label class="question-label">
+                                22. How many people are on your team?
+                            </label>
+                            <input type="text" name="team_size" placeholder="e.g., 3 full-time, 2 part-time">
+                        </div>
+
+                        <div class="question">
+                            <label class="question-label">
+                                23. What do they do?
+                            </label>
+                            <textarea name="team_roles" placeholder="Describe their roles and responsibilities..."></textarea>
+                        </div>
+
+                        <div class="question">
+                            <label class="question-label">
+                                24. Which tasks seem to consume the most man hours or resources?
+                            </label>
+                            <textarea name="team_time_consuming" placeholder="What's taking up most of your team's time?"></textarea>
+                        </div>
+
+                        <div class="question">
+                            <label class="question-label">
+                                25. How do you typically communicate with your team throughout the day? <span class="question-type">(check all that apply)</span>
+                            </label>
+                            <div class="checkbox-group">
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="comm_1" name="team_communication[]" value="Email">
+                                    <label for="comm_1">Email</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="comm_2" name="team_communication[]" value="Slack">
+                                    <label for="comm_2">Slack</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="comm_3" name="team_communication[]" value="WhatsApp">
+                                    <label for="comm_3">WhatsApp</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="comm_4" name="team_communication[]" value="Text/SMS">
+                                    <label for="comm_4">Text/SMS</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="comm_5" name="team_communication[]" value="Zoom">
+                                    <label for="comm_5">Zoom/video calls</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="comm_6" name="team_communication[]" value="Project management">
+                                    <label for="comm_6">Project management tool (Asana, Trello, ClickUp, etc.)</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="comm_7" name="team_communication[]" value="Voxer">
+                                    <label for="comm_7">Voxer or voice notes</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="comm_8" name="team_communication[]" value="Phone">
+                                    <label for="comm_8">Phone calls</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="comm_other" name="team_communication[]" value="Other">
+                                    <label for="comm_other">Other</label>
+                                </div>
+                                <div class="other-input" id="comm_other_input">
+                                    <input type="text" name="team_communication_other" placeholder="Please specify...">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="question">
+                            <label class="question-label">
+                                26. How often do you have to chase people down for information or approvals? <span class="question-type">(choose one only)</span>
+                            </label>
+                            <div class="radio-group">
+                                <div class="radio-item">
+                                    <input type="radio" id="chase_1" name="chase_frequency" value="Daily">
+                                    <label for="chase_1">Daily - it's constant</label>
+                                </div>
+                                <div class="radio-item">
+                                    <input type="radio" id="chase_2" name="chase_frequency" value="Few times a week">
+                                    <label for="chase_2">A few times a week</label>
+                                </div>
+                                <div class="radio-item">
+                                    <input type="radio" id="chase_3" name="chase_frequency" value="Once a week">
+                                    <label for="chase_3">Occasionally - maybe once a week</label>
+                                </div>
+                                <div class="radio-item">
+                                    <input type="radio" id="chase_4" name="chase_frequency" value="Rarely">
+                                    <label for="chase_4">Rarely - systems handle most of it</label>
+                                </div>
+                                <div class="radio-item">
+                                    <input type="radio" id="chase_5" name="chase_frequency" value="Never">
+                                    <label for="chase_5">Never - everything flows smoothly</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="navigation-buttons">
+                        <button type="button" class="btn btn-previous" onclick="previousPage()">Previous</button>
+                        <button type="button" class="btn btn-next" onclick="nextPage()">Next</button>
+                    </div>
+                </div>
+
+                <!-- PAGE 9: About Your Business -->
+                <div class="page" data-page="9">
+                    <div class="page-indicator">Page 9 of 10</div>
+                    <div class="section-header">
+                        <h2>About Your Business</h2>
+                        <p>Help us understand what makes you unique</p>
+                    </div>
+
+                    <div class="question">
+                        <label class="question-label">
+                            27. Tell me about your business in your own words - what you do, who you serve, and what makes your approach unique: <span class="required">*</span>
+                        </label>
+                        <textarea name="business_description" required placeholder="Take your time with this one - the more detail, the better your audit will be..."></textarea>
+                    </div>
+
+                    <div class="question">
+                        <label class="question-label">
+                            28. What's working well in your business right now that you want to protect/enhance? <span class="required">*</span>
+                        </label>
+                        <textarea name="what_works" required placeholder="What are you proud of? What's already bringing results?"></textarea>
+                    </div>
+
+                    <div class="question">
+                        <label class="question-label">
+                            29. What makes your job harder than it should be? <span class="required">*</span>
+                        </label>
+                        <textarea name="job_harder" required placeholder="What frustrates you? What feels like unnecessary friction?"></textarea>
+                    </div>
+
+                    <div class="question">
+                        <label class="question-label">
+                            30. Is there anything else I should know to give you the most useful recommendations?
+                        </label>
+                        <textarea name="anything_else" placeholder="Any additional context that would help..."></textarea>
+                    </div>
+
+                    <div class="navigation-buttons">
+                        <button type="button" class="btn btn-previous" onclick="previousPage()">Previous</button>
+                        <button type="button" class="btn btn-next" onclick="nextPage()">Next</button>
+                    </div>
+                </div>
+
+                <!-- PAGE 10: Software & Tech Stack -->
+                <div class="page" data-page="10">
+                    <div class="page-indicator">Page 10 of 10</div>
+                    <div class="section-header">
+                        <h2>Software & Tech Stack</h2>
+                        <p>Understanding current tools and technical frustrations</p>
+                    </div>
+
+                    <div class="question">
+                        <label class="question-label">
+                            31. What's the main software/tools your business relies on? <span class="question-type">(check all that apply)</span>
+                        </label>
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="tool_1" name="tools[]" value="CRM">
+                                <label for="tool_1">CRM (Go High Level, HubSpot, etc.)</label>
+                            </div>
+                            <div class="specify-input" id="tool_1_specify">
+                                <input type="text" name="tool_crm" placeholder="Which CRM?">
+                            </div>
+                            
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="tool_2" name="tools[]" value="Email marketing">
+                                <label for="tool_2">Email marketing platform (ConvertKit, Mailchimp, etc.)</label>
+                            </div>
+                            <div class="specify-input" id="tool_2_specify">
+                                <input type="text" name="tool_email" placeholder="Which email platform?">
+                            </div>
+                            
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="tool_3" name="tools[]" value="Project management">
+                                <label for="tool_3">Project management (Asana, Trello, ClickUp, Monday, etc.)</label>
+                            </div>
+                            <div class="specify-input" id="tool_3_specify">
+                                <input type="text" name="tool_pm" placeholder="Which project management tool?">
+                            </div>
+                            
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="tool_4" name="tools[]" value="Communication">
+                                <label for="tool_4">Communication (Slack, Teams, etc.)</label>
+                            </div>
+                            <div class="specify-input" id="tool_4_specify">
+                                <input type="text" name="tool_comm" placeholder="Which communication tool?">
+                            </div>
+                            
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="tool_5" name="tools[]" value="Course platform">
+                                <label for="tool_5">Course/membership platform (Kajabi, Teachable, Thinkific, etc.)</label>
+                            </div>
+                            <div class="specify-input" id="tool_5_specify">
+                                <input type="text" name="tool_course" placeholder="Which course platform?">
+                            </div>
+                            
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="tool_6" name="tools[]" value="Scheduling">
+                                <label for="tool_6">Scheduling (Calendly, Acuity, etc.)</label>
+                            </div>
+                            <div class="specify-input" id="tool_6_specify">
+                                <input type="text" name="tool_scheduling" placeholder="Which scheduling tool?">
+                            </div>
+                            
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="tool_7" name="tools[]" value="Payment">
+                                <label for="tool_7">Payment processing (Stripe, PayPal, etc.)</label>
+                            </div>
+                            <div class="specify-input" id="tool_7_specify">
+                                <input type="text" name="tool_payment" placeholder="Which payment processor?">
+                            </div>
+                            
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="tool_8" name="tools[]" value="Social media">
+                                <label for="tool_8">Social media scheduling (Buffer, Hootsuite, etc.)</label>
+                            </div>
+                            <div class="specify-input" id="tool_8_specify">
+                                <input type="text" name="tool_social" placeholder="Which social media tool?">
+                            </div>
+                            
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="tool_9" name="tools[]" value="Automation">
+                                <label for="tool_9">Automation (Zapier, Make.com, etc.)</label>
+                            </div>
+                            <div class="specify-input" id="tool_9_specify">
+                                <input type="text" name="tool_automation" placeholder="Which automation tool?">
+                            </div>
+                            
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="tool_10" name="tools[]" value="Google Workspace">
+                                <label for="tool_10">Google Workspace (Docs, Sheets, Drive, etc.)</label>
+                            </div>
+                            
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="tool_11" name="tools[]" value="Microsoft 365">
+                                <label for="tool_11">Microsoft 365</label>
+                            </div>
+                            
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="tool_other" name="tools[]" value="Other">
+                                <label for="tool_other">Other</label>
+                            </div>
+                            <div class="other-input" id="tool_other_input">
+                                <input type="text" name="tools_other" placeholder="Please specify...">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="question">
+                        <label class="question-label">
+                            32. What are your biggest frustrations with your current tech stack?
+                        </label>
+                        <textarea name="tech_frustrations" placeholder="What's not working? What's clunky? What wastes time?"></textarea>
+                    </div>
+
+                    <div class="navigation-buttons">
+                        <button type="button" class="btn btn-previous" onclick="previousPage()">Previous</button>
+                        <button type="button" class="btn btn-submit" onclick="submitForm(event)">Get My AI Audit</button>
+                    </div>
+
+                    <div class="loading" id="loading">
+                        <p>Submitting your assessment... This may take a moment.</p>
+                    </div>
+                    <div class="success-message" id="successMessage">
+                        <h3>✅ Assessment Submitted Successfully!</h3>
+                        <p>Thank you! Your personalised AI Audit will be ready within 24-48 hours.</p>
+                        <p>Check your email for confirmation and next steps.</p>
+                    </div>
+                    <div class="error-message" id="errorMessage">
+                        <h3>⚠️ Oops! Something went wrong.</h3>
+                        <p id="errorText">There was an error submitting your assessment. Please try again or contact support.</p>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+
+    <script>
+        let currentPage = 1;
+        const totalPages = 10;
+
+        // Show/hide "Other" text inputs
+        document.getElementById('biz_model_other').addEventListener('change', function() {
+            document.getElementById('biz_model_other_input').classList.toggle('active', this.checked);
+        });
+
+        document.getElementById('ai_use_other').addEventListener('change', function() {
+            document.getElementById('ai_use_other_input').classList.toggle('active', this.checked);
+        });
+
+        document.getElementById('frustration_other').addEventListener('change', function() {
+            document.getElementById('frustration_other_input').classList.toggle('active', this.checked);
+        });
+
+        document.getElementById('goal_other').addEventListener('change', function() {
+            document.getElementById('goal_other_input').classList.toggle('active', this.checked);
+        });
+
+        document.getElementById('comm_other').addEventListener('change', function() {
+            document.getElementById('comm_other_input').classList.toggle('active', this.checked);
+        });
+
+        document.getElementById('tool_other').addEventListener('change', function() {
+            document.getElementById('tool_other_input').classList.toggle('active', this.checked);
+        });
+
+        // Show community platform specify input
+        document.getElementById('support_3').addEventListener('change', function() {
+            document.getElementById('support_3_specify').classList.toggle('active', this.checked);
+        });
+
+        // Show content system input when they have a system
+        const contentRadios = document.getElementsByName('content_consistency');
+        contentRadios.forEach(radio => {
+            radio.addEventListener('change', function() {
+                const showInput = this.value === 'Very consistent' || this.value === 'Team helps';
+                document.getElementById('content_system_input').classList.toggle('active', showInput);
+            });
+        });
+
+        // Show tool specify inputs
+        for (let i = 1; i <= 9; i++) {
+            const checkbox = document.getElementById('tool_' + i);
+            const specify = document.getElementById('tool_' + i + '_specify');
+            if (checkbox && specify) {
+                checkbox.addEventListener('change', function() {
+                    specify.classList.toggle('active', this.checked);
+                });
+            }
+        }
+
+        // Show/hide team questions
+        const hasTeamRadios = document.getElementsByName('has_team');
+        const teamQuestions = document.getElementById('teamQuestions');
+
+        hasTeamRadios.forEach(radio => {
+            radio.addEventListener('change', function() {
+                teamQuestions.classList.toggle('active', this.value === 'Yes');
+            });
+        });
+
+        // Navigation functions
+        function nextPage() {
+            if (currentPage < totalPages) {
+                // Hide current page
+                document.querySelector(`.page[data-page="${currentPage}"]`).classList.remove('active');
+                
+                // Show next page
+                currentPage++;
+                document.querySelector(`.page[data-page="${currentPage}"]`).classList.add('active');
+                
+                // Update progress
+                updateProgress();
+                
+                // Scroll to top
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+
+        function previousPage() {
+            if (currentPage > 1) {
+                // Hide current page
+                document.querySelector(`.page[data-page="${currentPage}"]`).classList.remove('active');
+                
+                // Show previous page
+                currentPage--;
+                document.querySelector(`.page[data-page="${currentPage}"]`).classList.add('active');
+                
+                // Update progress
+                updateProgress();
+                
+                // Scroll to top
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+
+        function updateProgress() {
+            const progress = (currentPage / totalPages) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+            document.getElementById('progressText').textContent = `Step ${currentPage} of ${totalPages}`;
+        }
+
+        // Form submission
+        async function submitForm(e) {
+            e.preventDefault();
+            
+            const form = document.getElementById('auditForm');
+            const submitBtn = e.target;
+            const loading = document.getElementById('loading');
+            const successMessage = document.getElementById('successMessage');
+            const errorMessage = document.getElementById('errorMessage');
+            
+            // Disable submit button
+            submitBtn.disabled = true;
+            loading.classList.add('active');
+            successMessage.classList.remove('active');
+            errorMessage.classList.remove('active');
+
+            // Collect form data
+            const formData = new FormData(form);
+            const data = {};
+
+            // Convert FormData to JSON object
+            for (let [key, value] of formData.entries()) {
+                if (key.endsWith('[]')) {
+                    // Handle checkbox arrays
+                    const cleanKey = key.slice(0, -2);
+                    if (!data[cleanKey]) {
+                        data[cleanKey] = [];
+                    }
+                    data[cleanKey].push(value);
+                } else {
+                    data[key] = value;
+                }
+            }
+
+            // Add timestamp
+            data.timestamp = new Date().toISOString();
+            
+            // Calculate segment based on revenue and AI confidence
+            const revenue = data.monthly_revenue;
+            const aiConfidence = data.ai_confidence;
+            
+            if (revenue === 'Under £5K' || revenue === '£5K-£10K') {
+                if (aiConfidence === 'Complete beginner' || aiConfidence === 'Dabbler') {
+                    data.segment = 'Foundation Builder';
+                } else {
+                    data.segment = 'Ready to Automate';
+                }
+            } else if (revenue === '£10K-£25K') {
+                data.segment = 'Ready to Automate';
+            } else {
+                data.segment = 'Scale Accelerator';
+            }
+
+            console.log('Form data:', data);
+
+            try {
+                // REPLACE THIS WEBHOOK URL WITH YOUR ACTUAL MAKE.COM WEBHOOK
+                const webhookUrl = 'YOUR_MAKE_COM_WEBHOOK_URL_HERE';
+                
+                // For testing, you can use webhook.site to see the data
+                // const webhookUrl = 'https://webhook.site/your-unique-url';
+                
+                const response = await fetch(webhookUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                if (response.ok) {
+                    // Success
+                    loading.classList.remove('active');
+                    successMessage.classList.add('active');
+                    
+                    // Hide the submit button area
+                    document.querySelector('.navigation-buttons').style.display = 'none';
+                } else {
+                    throw new Error('Server responded with error');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                loading.classList.remove('active');
+                errorMessage.classList.add('active');
+                document.getElementById('errorText').textContent = 
+                    'There was an error submitting your assessment. Please try again or email cathy@yourwebtoolkit.com for support.';
+                submitBtn.disabled = false;
+            }
+        }
+
+        // Initialize progress
+        updateProgress();
+    </script>
+</body>
+</html>
