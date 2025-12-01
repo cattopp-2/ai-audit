@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Audit | Your Web Toolkit</title>
+    <title> AI Audit </title>
     <style>
         * {
             margin: 0;
@@ -560,23 +560,131 @@
 
                     <div class="question">
                         <label class="question-label">
-                            5. Time Audit - What tasks do you repeat? <span class="required">*</span>
+                            5. Time Audit - What tasks do you repeat? <span class="question-type">(check all that apply)</span> <span class="required">*</span>
                         </label>
-                        <textarea name="tasks_repeat" required placeholder="E.g., answering the same client questions, creating social media posts, sending welcome emails..."></textarea>
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="repeat_1" name="tasks_repeat[]" value="Answering the same client questions">
+                                <label for="repeat_1">Answering the same client questions</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="repeat_2" name="tasks_repeat[]" value="Creating social media posts">
+                                <label for="repeat_2">Creating social media posts</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="repeat_3" name="tasks_repeat[]" value="Sending welcome/onboarding emails">
+                                <label for="repeat_3">Sending welcome/onboarding emails</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="repeat_4" name="tasks_repeat[]" value="Writing proposals or quotes">
+                                <label for="repeat_4">Writing proposals or quotes</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="repeat_5" name="tasks_repeat[]" value="Scheduling follow-ups">
+                                <label for="repeat_5">Scheduling follow-ups</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="repeat_6" name="tasks_repeat[]" value="Creating content (blogs, newsletters)">
+                                <label for="repeat_6">Creating content (blogs, newsletters)</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="repeat_7" name="tasks_repeat[]" value="Client check-ins">
+                                <label for="repeat_7">Client check-ins</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="repeat_other" name="tasks_repeat[]" value="Other">
+                                <label for="repeat_other">Other</label>
+                            </div>
+                            <div class="other-input" id="repeat_other_input">
+                                <input type="text" name="tasks_repeat_other" placeholder="Please specify...">
+                            </div>
+                        </div>
                     </div>
 
                     <div class="question">
                         <label class="question-label">
-                            6. Time Audit - Where do balls get dropped? <span class="required">*</span>
+                            6. Time Audit - Where do balls get dropped? <span class="question-type">(check all that apply)</span> <span class="required">*</span>
                         </label>
-                        <textarea name="balls_dropped" required placeholder="E.g., follow-ups with prospects, client check-ins, admin tasks..."></textarea>
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="dropped_1" name="balls_dropped[]" value="Follow-ups with prospects">
+                                <label for="dropped_1">Follow-ups with prospects</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="dropped_2" name="balls_dropped[]" value="Client check-ins between sessions">
+                                <label for="dropped_2">Client check-ins between sessions</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="dropped_3" name="balls_dropped[]" value="Admin tasks (invoicing, contracts)">
+                                <label for="dropped_3">Admin tasks (invoicing, contracts)</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="dropped_4" name="balls_dropped[]" value="Marketing/content creation">
+                                <label for="dropped_4">Marketing/content creation</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="dropped_5" name="balls_dropped[]" value="Email responses">
+                                <label for="dropped_5">Email responses</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="dropped_6" name="balls_dropped[]" value="Onboarding new clients">
+                                <label for="dropped_6">Onboarding new clients</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="dropped_7" name="balls_dropped[]" value="Project tracking">
+                                <label for="dropped_7">Project tracking</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="dropped_other" name="balls_dropped[]" value="Other">
+                                <label for="dropped_other">Other</label>
+                            </div>
+                            <div class="other-input" id="dropped_other_input">
+                                <input type="text" name="balls_dropped_other" placeholder="Please specify...">
+                            </div>
+                        </div>
                     </div>
 
                     <div class="question">
                         <label class="question-label">
-                            7. Time Audit - What tasks take the most time? <span class="required">*</span>
+                            7. Time Audit - What tasks take the most time? <span class="question-type">(check all that apply)</span> <span class="required">*</span>
                         </label>
-                        <textarea name="time_consuming_tasks" required placeholder="E.g., content creation, client onboarding, email management..."></textarea>
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="time_1" name="time_consuming_tasks[]" value="Content creation (social media, blogs, emails)">
+                                <label for="time_1">Content creation (social media, blogs, emails)</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="time_2" name="time_consuming_tasks[]" value="Client onboarding">
+                                <label for="time_2">Client onboarding</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="time_3" name="time_consuming_tasks[]" value="Email management">
+                                <label for="time_3">Email management</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="time_4" name="time_consuming_tasks[]" value="Client delivery/sessions">
+                                <label for="time_4">Client delivery/sessions</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="time_5" name="time_consuming_tasks[]" value="Marketing and lead generation">
+                                <label for="time_5">Marketing and lead generation</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="time_6" name="time_consuming_tasks[]" value="Admin work">
+                                <label for="time_6">Admin work</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="time_7" name="time_consuming_tasks[]" value="Creating proposals/quotes">
+                                <label for="time_7">Creating proposals/quotes</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="time_other" name="time_consuming_tasks[]" value="Other">
+                                <label for="time_other">Other</label>
+                            </div>
+                            <div class="other-input" id="time_other_input">
+                                <input type="text" name="time_consuming_tasks_other" placeholder="Please specify...">
+                            </div>
+                        </div>
                     </div>
 
                     <div class="question">
@@ -1374,6 +1482,19 @@
             document.getElementById('tool_other_input').classList.toggle('active', this.checked);
         });
 
+        // Show/hide "Other" inputs for questions 5, 6, and 7
+        document.getElementById('repeat_other').addEventListener('change', function() {
+            document.getElementById('repeat_other_input').classList.toggle('active', this.checked);
+        });
+
+        document.getElementById('dropped_other').addEventListener('change', function() {
+            document.getElementById('dropped_other_input').classList.toggle('active', this.checked);
+        });
+
+        document.getElementById('time_other').addEventListener('change', function() {
+            document.getElementById('time_other_input').classList.toggle('active', this.checked);
+        });
+
         // Show client source other input
         document.getElementById('client_source_other').addEventListener('change', function() {
             document.getElementById('client_source_other_input').classList.toggle('active', this.checked);
@@ -1424,6 +1545,69 @@
                 const currentPageElement = document.querySelector(`.page[data-page="${currentPage}"]`);
                 const requiredFields = currentPageElement.querySelectorAll('[required]');
                 let allValid = true;
+                
+                // Special validation for checkbox groups on page 3 (questions 5, 6, 7)
+                if (currentPage === 3) {
+                    // Validate question 5: tasks_repeat
+                    const repeatCheckboxes = currentPageElement.querySelectorAll('[name="tasks_repeat[]"]');
+                    const repeatChecked = Array.from(repeatCheckboxes).some(cb => cb.checked);
+                    const repeatOtherChecked = document.getElementById('repeat_other').checked;
+                    const repeatOtherInput = document.querySelector('[name="tasks_repeat_other"]');
+                    
+                    if (!repeatChecked) {
+                        allValid = false;
+                        repeatCheckboxes[0].closest('.question').style.borderLeft = '4px solid #F6AD55';
+                        repeatCheckboxes[0].closest('.question').style.paddingLeft = '15px';
+                    } else if (repeatOtherChecked && !repeatOtherInput.value.trim()) {
+                        allValid = false;
+                        repeatOtherInput.style.borderColor = '#F6AD55';
+                        repeatOtherInput.style.borderWidth = '2px';
+                    } else {
+                        repeatCheckboxes[0].closest('.question').style.borderLeft = 'none';
+                        repeatCheckboxes[0].closest('.question').style.paddingLeft = '0';
+                        repeatOtherInput.style.borderColor = '#e0e0e0';
+                    }
+                    
+                    // Validate question 6: balls_dropped
+                    const droppedCheckboxes = currentPageElement.querySelectorAll('[name="balls_dropped[]"]');
+                    const droppedChecked = Array.from(droppedCheckboxes).some(cb => cb.checked);
+                    const droppedOtherChecked = document.getElementById('dropped_other').checked;
+                    const droppedOtherInput = document.querySelector('[name="balls_dropped_other"]');
+                    
+                    if (!droppedChecked) {
+                        allValid = false;
+                        droppedCheckboxes[0].closest('.question').style.borderLeft = '4px solid #F6AD55';
+                        droppedCheckboxes[0].closest('.question').style.paddingLeft = '15px';
+                    } else if (droppedOtherChecked && !droppedOtherInput.value.trim()) {
+                        allValid = false;
+                        droppedOtherInput.style.borderColor = '#F6AD55';
+                        droppedOtherInput.style.borderWidth = '2px';
+                    } else {
+                        droppedCheckboxes[0].closest('.question').style.borderLeft = 'none';
+                        droppedCheckboxes[0].closest('.question').style.paddingLeft = '0';
+                        droppedOtherInput.style.borderColor = '#e0e0e0';
+                    }
+                    
+                    // Validate question 7: time_consuming_tasks
+                    const timeCheckboxes = currentPageElement.querySelectorAll('[name="time_consuming_tasks[]"]');
+                    const timeChecked = Array.from(timeCheckboxes).some(cb => cb.checked);
+                    const timeOtherChecked = document.getElementById('time_other').checked;
+                    const timeOtherInput = document.querySelector('[name="time_consuming_tasks_other"]');
+                    
+                    if (!timeChecked) {
+                        allValid = false;
+                        timeCheckboxes[0].closest('.question').style.borderLeft = '4px solid #F6AD55';
+                        timeCheckboxes[0].closest('.question').style.paddingLeft = '15px';
+                    } else if (timeOtherChecked && !timeOtherInput.value.trim()) {
+                        allValid = false;
+                        timeOtherInput.style.borderColor = '#F6AD55';
+                        timeOtherInput.style.borderWidth = '2px';
+                    } else {
+                        timeCheckboxes[0].closest('.question').style.borderLeft = 'none';
+                        timeCheckboxes[0].closest('.question').style.paddingLeft = '0';
+                        timeOtherInput.style.borderColor = '#e0e0e0';
+                    }
+                }
                 
                 // Check all required fields
                 requiredFields.forEach(field => {
