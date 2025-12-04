@@ -3,14 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> AI Audit </title>
+    <title>AI Audit</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
             line-height: 1.6;
@@ -19,7 +18,6 @@
             padding: 20px;
             min-height: 100vh;
         }
-
         .container {
             max-width: 800px;
             margin: 0 auto;
@@ -28,60 +26,49 @@
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
             overflow: hidden;
         }
-
         .header {
             background: #215E8D;
             color: white;
             padding: 40px;
             text-align: center;
         }
-
         .header h1 {
             font-size: 2.5rem;
             margin-bottom: 10px;
             font-weight: 700;
         }
-
         .header p {
             font-size: 1.1rem;
             opacity: 0.95;
             line-height: 1.5;
         }
-
         .form-content {
             padding: 40px;
         }
-
         .page {
             display: none;
         }
-
         .page.active {
             display: block;
         }
-
         .section-header {
             background: #f8f9fa;
             padding: 15px 20px;
             margin: -20px -20px 30px -20px;
             border-left: 4px solid #F6AD55;
         }
-
         .section-header h2 {
             color: #215E8D;
             font-size: 1.5rem;
             margin-bottom: 5px;
         }
-
         .section-header p {
             color: #666;
             font-size: 0.95rem;
         }
-
         .question {
             margin-bottom: 30px;
         }
-
         .question-label {
             display: block;
             font-weight: 600;
@@ -89,12 +76,10 @@
             margin-bottom: 12px;
             font-size: 1.05rem;
         }
-
         .required {
             color: #F6AD55;
             margin-left: 4px;
         }
-
         .question-type {
             color: #666;
             font-size: 0.85rem;
@@ -102,9 +87,9 @@
             font-style: italic;
             margin-left: 8px;
         }
-
         input[type="text"],
         input[type="email"],
+        input[type="url"],
         textarea,
         select {
             width: 100%;
@@ -115,32 +100,28 @@
             font-family: inherit;
             transition: border-color 0.3s;
         }
-
         input[type="text"]:focus,
         input[type="email"]:focus,
+        input[type="url"]:focus,
         textarea:focus,
         select:focus {
             outline: none;
             border-color: #215E8D;
         }
-
         textarea {
             min-height: 100px;
             resize: vertical;
         }
-
         .checkbox-group,
         .radio-group {
             margin-top: 10px;
         }
-
         .checkbox-item,
         .radio-item {
             margin-bottom: 12px;
             display: flex;
             align-items: flex-start;
         }
-
         input[type="checkbox"],
         input[type="radio"] {
             margin-right: 10px;
@@ -150,7 +131,6 @@
             cursor: pointer;
             accent-color: #215E8D;
         }
-
         .checkbox-item label,
         .radio-item label {
             cursor: pointer;
@@ -158,28 +138,23 @@
             color: #333;
             flex: 1;
         }
-
         .other-input {
             margin-top: 10px;
             margin-left: 28px;
             display: none;
         }
-
         .other-input.active {
             display: block;
         }
-
         .specify-input {
             margin-left: 28px;
             margin-top: 8px;
             max-width: 400px;
             display: none;
         }
-
         .specify-input.active {
             display: block;
         }
-
         .conditional-section {
             display: none;
             margin-top: 20px;
@@ -188,11 +163,9 @@
             border-radius: 8px;
             border-left: 4px solid #F6AD55;
         }
-
         .conditional-section.active {
             display: block;
         }
-
         .progress-bar {
             position: sticky;
             top: 0;
@@ -201,14 +174,12 @@
             border-bottom: 2px solid #f0f0f0;
             z-index: 100;
         }
-
         .progress-bar-bg {
             height: 8px;
             background: #e0e0e0;
             border-radius: 4px;
             overflow: hidden;
         }
-
         .progress-bar-fill {
             height: 100%;
             background: #215E8D;
@@ -216,7 +187,6 @@
             transition: width 0.3s ease;
             position: relative;
         }
-
         .progress-bar-fill::after {
             content: '';
             position: absolute;
@@ -227,19 +197,16 @@
             background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
             animation: shimmer 2s infinite;
         }
-
         @keyframes shimmer {
             0% { transform: translateX(-100%); }
             100% { transform: translateX(100%); }
         }
-
         .progress-text {
             text-align: center;
             margin-top: 8px;
             font-size: 0.9rem;
             color: #666;
         }
-
         .navigation-buttons {
             display: flex;
             justify-content: space-between;
@@ -247,7 +214,6 @@
             padding-top: 30px;
             border-top: 2px solid #f0f0f0;
         }
-
         .btn {
             padding: 14px 30px;
             font-size: 1.1rem;
@@ -259,54 +225,44 @@
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
-
         .btn-previous {
             background: #e0e0e0;
             color: #333;
         }
-
         .btn-previous:hover {
             background: #d0d0d0;
         }
-
         .btn-next {
             background: #F6AD55;
             color: #000;
         }
-
         .btn-next:hover {
             background: #e69d45;
             transform: translateY(-2px);
             box-shadow: 0 5px 20px rgba(246, 173, 85, 0.4);
         }
-
         .btn-submit {
             background: #F6AD55;
             color: #000;
         }
-
         .btn-submit:hover {
             background: #e69d45;
             transform: translateY(-2px);
             box-shadow: 0 5px 20px rgba(246, 173, 85, 0.4);
         }
-
         .btn:disabled {
             background: #ccc;
             cursor: not-allowed;
             transform: none;
         }
-
         .loading {
             display: none;
             text-align: center;
             padding: 20px;
         }
-
         .loading.active {
             display: block;
         }
-
         .success-message,
         .error-message {
             display: none;
@@ -315,56 +271,46 @@
             margin-top: 20px;
             text-align: center;
         }
-
         .success-message {
             background: #d4edda;
             color: #155724;
             border: 1px solid #c3e6cb;
         }
-
         .error-message {
             background: #f8d7da;
             color: #721c24;
             border: 1px solid #f5c6cb;
         }
-
         .success-message.active,
         .error-message.active {
             display: block;
         }
-
         .success-message h3,
         .error-message h3 {
             margin-bottom: 15px;
             font-size: 1.5rem;
         }
-
         @media (max-width: 768px) {
             .header h1 {
                 font-size: 1.8rem;
             }
-
             .form-content {
                 padding: 25px;
             }
-
             .section-header {
                 margin: -15px -15px 20px -15px;
             }
-
             .btn {
                 padding: 12px 24px;
                 font-size: 1rem;
             }
         }
-
         .help-text {
             font-size: 0.85rem;
             color: #666;
             margin-top: 5px;
             font-style: italic;
         }
-
         .page-indicator {
             text-align: center;
             color: #999;
@@ -379,14 +325,12 @@
             <h1>AI Audit</h1>
             <p>Discover exactly where AI can save you time and increase revenue in your business</p>
         </div>
-
         <div class="progress-bar">
             <div class="progress-bar-bg">
                 <div class="progress-bar-fill" id="progressBar" style="width: 0%"></div>
             </div>
             <div class="progress-text" id="progressText">Step 1 of 10</div>
         </div>
-
         <div class="form-content">
             <form id="auditForm">
                 
@@ -414,9 +358,54 @@
 
                     <div class="question">
                         <label class="question-label">
-                            Business Name
+                            Business Name <span class="required">*</span>
                         </label>
-                        <input type="text" name="business_name">
+                        <input type="text" name="business_name" required>
+                    </div>
+
+                    <div class="question">
+                        <label class="question-label">
+                            Website <span class="required">*</span>
+                        </label>
+                        <input type="text" name="website" required placeholder="https://yourwebsite.com">
+                        <div class="help-text">Please include the full URL (e.g., https://yourwebsite.com)</div>
+                    </div>
+
+                    <div class="question">
+                        <label class="question-label">
+                            Most Active Social Media Platform
+                        </label>
+                        <div class="help-text" style="margin-bottom: 10px;">Share the platform where you're most active so I can understand your brand voice</div>
+                        <select name="primary_social_platform">
+                            <option value="">Select platform...</option>
+                            <option value="LinkedIn">LinkedIn</option>
+                            <option value="Instagram">Instagram</option>
+                            <option value="Facebook">Facebook</option>
+                            <option value="Twitter/X">Twitter/X</option>
+                            <option value="TikTok">TikTok</option>
+                            <option value="YouTube">YouTube</option>
+                            <option value="Pinterest">Pinterest</option>
+                            <option value="Other">Other</option>
+                            <option value="None">I'm not active on social media</option>
+                        </select>
+                    </div>
+
+                    <div class="question" id="primary_social_link_question" style="display: none;">
+                        <label class="question-label">
+                            Link to Your Primary Social Media Profile
+                        </label>
+                        <input type="text" name="primary_social_link" placeholder="https://...">
+                        <div class="help-text">This helps me see your content style and brand voice</div>
+                    </div>
+
+                    <div class="question">
+                        <label class="question-label">
+                            Other Social Media Platforms
+                        </label>
+                        <div class="help-text" style="margin-bottom: 10px;">Optional: Add any other platforms where you have a presence</div>
+                        <input type="text" name="other_social_1" placeholder="Platform and link (e.g., Instagram: https://instagram.com/yourhandle)" style="margin-bottom: 10px;">
+                        <input type="text" name="other_social_2" placeholder="Platform and link" style="margin-bottom: 10px;">
+                        <input type="text" name="other_social_3" placeholder="Platform and link">
                     </div>
 
                     <div class="navigation-buttons">
@@ -432,7 +421,6 @@
                         <h2>Business Overview</h2>
                         <p>Understanding your business model and current operations</p>
                     </div>
-
                     <div class="question">
                         <label class="question-label">
                             1. What's your primary business model? <span class="question-type">(check all that apply)</span>
@@ -463,7 +451,6 @@
                             </div>
                         </div>
                     </div>
-
                     <div class="question">
                         <label class="question-label">
                             2. How many clients/customers do you serve per month? <span class="question-type">(choose one only)</span> <span class="required">*</span>
@@ -491,7 +478,6 @@
                             </div>
                         </div>
                     </div>
-
                     <div class="question">
                         <label class="question-label">
                             3. What's your current monthly revenue? <span class="question-type">(choose one only)</span> <span class="required">*</span>
@@ -519,7 +505,6 @@
                             </div>
                         </div>
                     </div>
-
                     <div class="navigation-buttons">
                         <button type="button" class="btn btn-previous" onclick="previousPage()">Previous</button>
                         <button type="button" class="btn btn-next" onclick="nextPage()">Next</button>
@@ -533,7 +518,6 @@
                         <h2>Time & Bottlenecks</h2>
                         <p>Identifying where you're losing time and what's holding you back</p>
                     </div>
-
                     <div class="question">
                         <label class="question-label">
                             4. Which of the below statements describes your current situation? <span class="question-type">(check all that apply)</span>
@@ -557,7 +541,6 @@
                             </div>
                         </div>
                     </div>
-
                     <div class="question">
                         <label class="question-label">
                             5. Time Audit - What tasks do you repeat? <span class="question-type">(check all that apply)</span> <span class="required">*</span>
@@ -600,7 +583,6 @@
                             </div>
                         </div>
                     </div>
-
                     <div class="question">
                         <label class="question-label">
                             6. Time Audit - Where do balls get dropped? <span class="question-type">(check all that apply)</span> <span class="required">*</span>
@@ -643,7 +625,6 @@
                             </div>
                         </div>
                     </div>
-
                     <div class="question">
                         <label class="question-label">
                             7. Time Audit - What tasks take the most time? <span class="question-type">(check all that apply)</span> <span class="required">*</span>
@@ -686,7 +667,6 @@
                             </div>
                         </div>
                     </div>
-
                     <div class="question">
                         <label class="question-label">
                             8. What's your biggest frustration right now? <span class="question-type">(check all that apply)</span>
@@ -725,7 +705,6 @@
                             </div>
                         </div>
                     </div>
-
                     <div class="navigation-buttons">
                         <button type="button" class="btn btn-previous" onclick="previousPage()">Previous</button>
                         <button type="button" class="btn btn-next" onclick="nextPage()">Next</button>
@@ -739,7 +718,6 @@
                         <h2>Current AI Usage</h2>
                         <p>Understanding your existing AI experience and comfort level</p>
                     </div>
-
                     <div class="question">
                         <label class="question-label">
                             9. How are you currently using AI? <span class="question-type">(check all that apply)</span>
@@ -774,7 +752,6 @@
                             </div>
                         </div>
                     </div>
-
                     <div class="question">
                         <label class="question-label">
                             10. What best describes your AI confidence level? <span class="question-type">(choose one only)</span> <span class="required">*</span>
@@ -798,7 +775,6 @@
                             </div>
                         </div>
                     </div>
-
                     <div class="question">
                         <label class="question-label">
                             11. What's your biggest AI challenge right now? <span class="question-type">(choose one only)</span> <span class="required">*</span>
@@ -830,7 +806,6 @@
                             </div>
                         </div>
                     </div>
-
                     <div class="navigation-buttons">
                         <button type="button" class="btn btn-previous" onclick="previousPage()">Previous</button>
                         <button type="button" class="btn btn-next" onclick="nextPage()">Next</button>
@@ -844,7 +819,6 @@
                         <h2>Marketing & Client Acquisition</h2>
                         <p>Understanding your marketing maturity and lead generation</p>
                     </div>
-
                     <div class="question">
                         <label class="question-label">
                             12. How do most of your clients find you? <span class="question-type">(check all that apply)</span>
@@ -887,7 +861,6 @@
                             </div>
                         </div>
                     </div>
-
                     <div class="question">
                         <label class="question-label">
                             13. Do you have an email list? <span class="question-type">(choose one only)</span> <span class="required">*</span>
@@ -915,7 +888,6 @@
                             </div>
                         </div>
                     </div>
-
                     <div class="question">
                         <label class="question-label">
                             14. How consistent is your content creation? <span class="question-type">(check all that apply)</span>
@@ -960,7 +932,6 @@
                             <textarea name="content_alternative" placeholder="If you don't rely on content, how do you generate leads?"></textarea>
                         </div>
                     </div>
-
                     <div class="navigation-buttons">
                         <button type="button" class="btn btn-previous" onclick="previousPage()">Previous</button>
                         <button type="button" class="btn btn-next" onclick="nextPage()">Next</button>
@@ -974,7 +945,6 @@
                         <h2>Client Delivery & Support</h2>
                         <p>Identifying automation opportunities in client experience</p>
                     </div>
-
                     <div class="question">
                         <label class="question-label">
                             15. How do clients typically get support between sessions? <span class="question-type">(check all that apply)</span>
@@ -1005,7 +975,6 @@
                             </div>
                         </div>
                     </div>
-
                     <div class="question">
                         <label class="question-label">
                             16. Do you find yourself answering the same questions repeatedly? <span class="question-type">(choose one only)</span> <span class="required">*</span>
@@ -1029,7 +998,6 @@
                             </div>
                         </div>
                     </div>
-
                     <div class="question">
                         <label class="question-label">
                             17. What happens when a potential client is interested in working with you? <span class="question-type">(check all that apply)</span>
@@ -1057,277 +1025,9 @@
                             </div>
                         </div>
                     </div>
-
                     <div class="navigation-buttons">
                         <button type="button" class="btn btn-previous" onclick="previousPage()">Previous</button>
                         <button type="button" class="btn btn-next" onclick="nextPage()">Next</button>
-                    </div>
-                </div>
-
-                <!-- PAGE 9: Revenue & Growth Goals -->
-                <div class="page" data-page="9">
-                    <div class="page-indicator">Page 9 of 10</div>
-                    <div class="section-header">
-                        <h2>Revenue & Growth Goals</h2>
-                        <p>Understanding your growth ambitions and revenue targets</p>
-                    </div>
-
-                    <div class="question">
-                        <label class="question-label">
-                            18. What's your primary business goal for the next 6 months? <span class="question-type">(check all that apply)</span>
-                        </label>
-                        <div class="checkbox-group">
-                            <div class="checkbox-item">
-                                <input type="checkbox" id="goal_1" name="goals[]" value="Increase revenue">
-                                <label for="goal_1">Increase revenue without working more hours</label>
-                            </div>
-                            <div class="checkbox-item">
-                                <input type="checkbox" id="goal_2" name="goals[]" value="Launch new programme">
-                                <label for="goal_2">Launch a new programme/offer</label>
-                            </div>
-                            <div class="checkbox-item">
-                                <input type="checkbox" id="goal_3" name="goals[]" value="Predictable income">
-                                <label for="goal_3">Build more predictable income streams</label>
-                            </div>
-                            <div class="checkbox-item">
-                                <input type="checkbox" id="goal_4" name="goals[]" value="Reduce delivery time">
-                                <label for="goal_4">Reduce time spent on delivery while maintaining quality</label>
-                            </div>
-                            <div class="checkbox-item">
-                                <input type="checkbox" id="goal_5" name="goals[]" value="Scale team">
-                                <label for="goal_5">Scale team/operations</label>
-                            </div>
-                            <div class="checkbox-item">
-                                <input type="checkbox" id="goal_other" name="goals[]" value="Other">
-                                <label for="goal_other">Other</label>
-                            </div>
-                            <div class="other-input" id="goal_other_input">
-                                <input type="text" name="goals_other" placeholder="Please specify...">
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="question">
-                        <label class="question-label">
-                            19. If you could wave a magic wand and fix ONE issue in your business, what would it be? <span class="required">*</span>
-                        </label>
-                        <textarea name="magic_wand" required placeholder="Be as specific as possible..."></textarea>
-                    </div>
-
-                    <div class="question">
-                        <label class="question-label">
-                            20. What would an extra 20 hours per week allow you to do in your business? <span class="question-type">(check all that apply)</span>
-                        </label>
-                        <div class="checkbox-group">
-                            <div class="checkbox-item">
-                                <input type="checkbox" id="extra_time_1" name="extra_time[]" value="More delivery">
-                                <label for="extra_time_1">More client delivery/serving more people</label>
-                            </div>
-                            <div class="checkbox-item">
-                                <input type="checkbox" id="extra_time_2" name="extra_time[]" value="Marketing">
-                                <label for="extra_time_2">Marketing and business development</label>
-                            </div>
-                            <div class="checkbox-item">
-                                <input type="checkbox" id="extra_time_3" name="extra_time[]" value="Create products">
-                                <label for="extra_time_3">Create new products/programmes</label>
-                            </div>
-                            <div class="checkbox-item">
-                                <input type="checkbox" id="extra_time_4" name="extra_time[]" value="Time off">
-                                <label for="extra_time_4">Finally take time off without guilt</label>
-                            </div>
-                            <div class="checkbox-item">
-                                <input type="checkbox" id="extra_time_5" name="extra_time[]" value="Strategy">
-                                <label for="extra_time_5">Focus on strategy instead of execution</label>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="navigation-buttons">
-                        <button type="button" class="btn btn-previous" onclick="previousPage()">Previous</button>
-                        <button type="button" class="btn btn-next" onclick="nextPage()">Next</button>
-                    </div>
-                </div>
-
-                <!-- PAGE 8: Your Team -->
-                <div class="page" data-page="8">
-                    <div class="page-indicator">Page 8 of 10</div>
-                    <div class="section-header">
-                        <h2>Your Team</h2>
-                        <p>Understanding team structure and collaboration challenges</p>
-                    </div>
-
-                    <div class="question">
-                        <label class="question-label">
-                            21. Do you have a team? <span class="required">*</span>
-                        </label>
-                        <div class="radio-group">
-                            <div class="radio-item">
-                                <input type="radio" id="has_team_no" name="has_team" value="No" required>
-                                <label for="has_team_no">No, it's just me</label>
-                            </div>
-                            <div class="radio-item">
-                                <input type="radio" id="has_team_yes" name="has_team" value="Yes">
-                                <label for="has_team_yes">Yes, I have a team</label>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="conditional-section" id="teamQuestions">
-                        <div class="question">
-                            <label class="question-label">
-                                22. How many people are on your team?
-                            </label>
-                            <input type="text" name="team_size" placeholder="e.g., 3 full-time, 2 part-time">
-                        </div>
-
-                        <div class="question">
-                            <label class="question-label">
-                                23. What do they do?
-                            </label>
-                            <textarea name="team_roles" placeholder="Describe their roles and responsibilities..."></textarea>
-                        </div>
-
-                        <div class="question">
-                            <label class="question-label">
-                                24. Which tasks seem to consume the most man hours or resources?
-                            </label>
-                            <textarea name="team_time_consuming" placeholder="What's taking up most of your team's time?"></textarea>
-                        </div>
-
-                        <div class="question">
-                            <label class="question-label">
-                                25. How do you typically communicate with your team throughout the day? <span class="question-type">(check all that apply)</span>
-                            </label>
-                            <div class="checkbox-group">
-                                <div class="checkbox-item">
-                                    <input type="checkbox" id="comm_1" name="team_communication[]" value="Email">
-                                    <label for="comm_1">Email</label>
-                                </div>
-                                <div class="checkbox-item">
-                                    <input type="checkbox" id="comm_2" name="team_communication[]" value="Slack">
-                                    <label for="comm_2">Slack</label>
-                                </div>
-                                <div class="checkbox-item">
-                                    <input type="checkbox" id="comm_3" name="team_communication[]" value="WhatsApp">
-                                    <label for="comm_3">WhatsApp</label>
-                                </div>
-                                <div class="checkbox-item">
-                                    <input type="checkbox" id="comm_4" name="team_communication[]" value="Text/SMS">
-                                    <label for="comm_4">Text/SMS</label>
-                                </div>
-                                <div class="checkbox-item">
-                                    <input type="checkbox" id="comm_5" name="team_communication[]" value="Zoom">
-                                    <label for="comm_5">Zoom/video calls</label>
-                                </div>
-                                <div class="checkbox-item">
-                                    <input type="checkbox" id="comm_6" name="team_communication[]" value="Project management">
-                                    <label for="comm_6">Project management tool (Asana, Trello, ClickUp, etc.)</label>
-                                </div>
-                                <div class="checkbox-item">
-                                    <input type="checkbox" id="comm_7" name="team_communication[]" value="Voxer">
-                                    <label for="comm_7">Voxer or voice notes</label>
-                                </div>
-                                <div class="checkbox-item">
-                                    <input type="checkbox" id="comm_8" name="team_communication[]" value="Phone">
-                                    <label for="comm_8">Phone calls</label>
-                                </div>
-                                <div class="checkbox-item">
-                                    <input type="checkbox" id="comm_other" name="team_communication[]" value="Other">
-                                    <label for="comm_other">Other</label>
-                                </div>
-                                <div class="other-input" id="comm_other_input">
-                                    <input type="text" name="team_communication_other" placeholder="Please specify...">
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="question">
-                            <label class="question-label">
-                                26. How often do you have to chase people down for information or approvals? <span class="question-type">(choose one only)</span>
-                            </label>
-                            <div class="radio-group">
-                                <div class="radio-item">
-                                    <input type="radio" id="chase_1" name="chase_frequency" value="Daily">
-                                    <label for="chase_1">Daily - it's constant</label>
-                                </div>
-                                <div class="radio-item">
-                                    <input type="radio" id="chase_2" name="chase_frequency" value="Few times a week">
-                                    <label for="chase_2">A few times a week</label>
-                                </div>
-                                <div class="radio-item">
-                                    <input type="radio" id="chase_3" name="chase_frequency" value="Once a week">
-                                    <label for="chase_3">Occasionally - maybe once a week</label>
-                                </div>
-                                <div class="radio-item">
-                                    <input type="radio" id="chase_4" name="chase_frequency" value="Rarely">
-                                    <label for="chase_4">Rarely - systems handle most of it</label>
-                                </div>
-                                <div class="radio-item">
-                                    <input type="radio" id="chase_5" name="chase_frequency" value="Never">
-                                    <label for="chase_5">Never - everything flows smoothly</label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="navigation-buttons">
-                        <button type="button" class="btn btn-previous" onclick="previousPage()">Previous</button>
-                        <button type="button" class="btn btn-next" onclick="nextPage()">Next</button>
-                    </div>
-                </div>
-
-                <!-- PAGE 10: About Your Business -->
-                <div class="page" data-page="10">
-                    <div class="page-indicator">Page 10 of 10</div>
-                    <div class="section-header">
-                        <h2>About Your Business</h2>
-                        <p>Help us understand what makes you unique</p>
-                    </div>
-
-                    <div class="question">
-                        <label class="question-label">
-                            27. Tell me about your business in your own words - what you do, who you serve, and what makes your approach unique: <span class="required">*</span>
-                        </label>
-                        <textarea name="business_description" required placeholder="Take your time with this one - the more detail, the better your audit will be..."></textarea>
-                    </div>
-
-                    <div class="question">
-                        <label class="question-label">
-                            28. What's working well in your business right now that you want to protect/enhance? <span class="required">*</span>
-                        </label>
-                        <textarea name="what_works" required placeholder="What are you proud of? What's already bringing results?"></textarea>
-                    </div>
-
-                    <div class="question">
-                        <label class="question-label">
-                            29. What makes your job harder than it should be? <span class="required">*</span>
-                        </label>
-                        <textarea name="job_harder" required placeholder="What frustrates you? What feels like unnecessary friction?"></textarea>
-                    </div>
-
-                    <div class="question">
-                        <label class="question-label">
-                            30. Is there anything else I should know to give you the most useful recommendations?
-                        </label>
-                        <textarea name="anything_else" placeholder="Any additional context that would help..."></textarea>
-                    </div>
-
-                    <div class="navigation-buttons">
-                        <button type="button" class="btn btn-previous" onclick="previousPage()">Previous</button>
-                        <button type="button" class="btn btn-submit" onclick="submitForm(event)">Get My AI Audit</button>
-                    </div>
-
-                    <div class="loading" id="loading">
-                        <p>Submitting your assessment... This may take a moment.</p>
-                    </div>
-                    <div class="success-message" id="successMessage">
-                        <h3>✅ Assessment Submitted Successfully!</h3>
-                        <p>Thank you! Your personalised AI Audit will be ready within 24-48 hours.</p>
-                        <p>Check your email for confirmation and next steps.</p>
-                    </div>
-                    <div class="error-message" id="errorMessage">
-                        <h3>⚠️ Oops! Something went wrong.</h3>
-                        <p id="errorText">There was an error submitting your assessment. Please try again or contact support.</p>
                     </div>
                 </div>
 
@@ -1338,10 +1038,9 @@
                         <h2>Software & Tech Stack</h2>
                         <p>Understanding current tools and technical frustrations</p>
                     </div>
-
                     <div class="question">
                         <label class="question-label">
-                            31. What's the main software/tools your business relies on? <span class="question-type">(check all that apply)</span>
+                            18. What's the main software/tools your business relies on? <span class="question-type">(check all that apply)</span>
                         </label>
                         <div class="checkbox-group">
                             <div class="checkbox-item">
@@ -1435,17 +1134,265 @@
                             </div>
                         </div>
                     </div>
-
                     <div class="question">
                         <label class="question-label">
-                            32. What are your biggest frustrations with your current tech stack?
+                            19. What are your biggest frustrations with your current tech stack?
                         </label>
                         <textarea name="tech_frustrations" placeholder="What's not working? What's clunky? What wastes time?"></textarea>
                     </div>
-
                     <div class="navigation-buttons">
                         <button type="button" class="btn btn-previous" onclick="previousPage()">Previous</button>
                         <button type="button" class="btn btn-next" onclick="nextPage()">Next</button>
+                    </div>
+                </div>
+
+                <!-- PAGE 8: Your Team -->
+                <div class="page" data-page="8">
+                    <div class="page-indicator">Page 8 of 10</div>
+                    <div class="section-header">
+                        <h2>Your Team</h2>
+                        <p>Understanding team structure and collaboration challenges</p>
+                    </div>
+                    <div class="question">
+                        <label class="question-label">
+                            20. Do you have a team? <span class="required">*</span>
+                        </label>
+                        <div class="radio-group">
+                            <div class="radio-item">
+                                <input type="radio" id="has_team_no" name="has_team" value="No" required>
+                                <label for="has_team_no">No, it's just me</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="has_team_yes" name="has_team" value="Yes">
+                                <label for="has_team_yes">Yes, I have a team</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="conditional-section" id="teamQuestions">
+                        <div class="question">
+                            <label class="question-label">
+                                21. How many people are on your team?
+                            </label>
+                            <input type="text" name="team_size" placeholder="e.g., 3 full-time, 2 part-time">
+                        </div>
+                        <div class="question">
+                            <label class="question-label">
+                                22. What do they do?
+                            </label>
+                            <textarea name="team_roles" placeholder="Describe their roles and responsibilities..."></textarea>
+                        </div>
+                        <div class="question">
+                            <label class="question-label">
+                                23. Which tasks seem to consume the most man hours or resources?
+                            </label>
+                            <textarea name="team_time_consuming" placeholder="What's taking up most of your team's time?"></textarea>
+                        </div>
+                        <div class="question">
+                            <label class="question-label">
+                                24. How do you typically communicate with your team throughout the day? <span class="question-type">(check all that apply)</span>
+                            </label>
+                            <div class="checkbox-group">
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="comm_1" name="team_communication[]" value="Email">
+                                    <label for="comm_1">Email</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="comm_2" name="team_communication[]" value="Slack">
+                                    <label for="comm_2">Slack</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="comm_3" name="team_communication[]" value="WhatsApp">
+                                    <label for="comm_3">WhatsApp</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="comm_4" name="team_communication[]" value="Text/SMS">
+                                    <label for="comm_4">Text/SMS</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="comm_5" name="team_communication[]" value="Zoom">
+                                    <label for="comm_5">Zoom/video calls</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="comm_6" name="team_communication[]" value="Project management">
+                                    <label for="comm_6">Project management tool (Asana, Trello, ClickUp, etc.)</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="comm_7" name="team_communication[]" value="Voxer">
+                                    <label for="comm_7">Voxer or voice notes</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="comm_8" name="team_communication[]" value="Phone">
+                                    <label for="comm_8">Phone calls</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="comm_other" name="team_communication[]" value="Other">
+                                    <label for="comm_other">Other</label>
+                                </div>
+                                <div class="other-input" id="comm_other_input">
+                                    <input type="text" name="team_communication_other" placeholder="Please specify...">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="question">
+                            <label class="question-label">
+                                25. How often do you have to chase people down for information or approvals? <span class="question-type">(choose one only)</span>
+                            </label>
+                            <div class="radio-group">
+                                <div class="radio-item">
+                                    <input type="radio" id="chase_1" name="chase_frequency" value="Daily">
+                                    <label for="chase_1">Daily - it's constant</label>
+                                </div>
+                                <div class="radio-item">
+                                    <input type="radio" id="chase_2" name="chase_frequency" value="Few times a week">
+                                    <label for="chase_2">A few times a week</label>
+                                </div>
+                                <div class="radio-item">
+                                    <input type="radio" id="chase_3" name="chase_frequency" value="Once a week">
+                                    <label for="chase_3">Occasionally - maybe once a week</label>
+                                </div>
+                                <div class="radio-item">
+                                    <input type="radio" id="chase_4" name="chase_frequency" value="Rarely">
+                                    <label for="chase_4">Rarely - systems handle most of it</label>
+                                </div>
+                                <div class="radio-item">
+                                    <input type="radio" id="chase_5" name="chase_frequency" value="Never">
+                                    <label for="chase_5">Never - everything flows smoothly</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="navigation-buttons">
+                        <button type="button" class="btn btn-previous" onclick="previousPage()">Previous</button>
+                        <button type="button" class="btn btn-next" onclick="nextPage()">Next</button>
+                    </div>
+                </div>
+
+                <!-- PAGE 9: Revenue & Growth Goals -->
+                <div class="page" data-page="9">
+                    <div class="page-indicator">Page 9 of 10</div>
+                    <div class="section-header">
+                        <h2>Revenue & Growth Goals</h2>
+                        <p>Understanding your growth ambitions and revenue targets</p>
+                    </div>
+                    <div class="question">
+                        <label class="question-label">
+                            26. What's your primary business goal for the next 6 months? <span class="question-type">(check all that apply)</span>
+                        </label>
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="goal_1" name="goals[]" value="Increase revenue">
+                                <label for="goal_1">Increase revenue without working more hours</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="goal_2" name="goals[]" value="Launch new programme">
+                                <label for="goal_2">Launch a new programme/offer</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="goal_3" name="goals[]" value="Predictable income">
+                                <label for="goal_3">Build more predictable income streams</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="goal_4" name="goals[]" value="Reduce delivery time">
+                                <label for="goal_4">Reduce time spent on delivery while maintaining quality</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="goal_5" name="goals[]" value="Scale team">
+                                <label for="goal_5">Scale team/operations</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="goal_other" name="goals[]" value="Other">
+                                <label for="goal_other">Other</label>
+                            </div>
+                            <div class="other-input" id="goal_other_input">
+                                <input type="text" name="goals_other" placeholder="Please specify...">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="question">
+                        <label class="question-label">
+                            27. If you could wave a magic wand and fix ONE issue in your business, what would it be? <span class="required">*</span>
+                        </label>
+                        <textarea name="magic_wand" required placeholder="Be as specific as possible..."></textarea>
+                    </div>
+                    <div class="question">
+                        <label class="question-label">
+                            28. What would an extra 20 hours per week allow you to do in your business? <span class="question-type">(check all that apply)</span>
+                        </label>
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="extra_time_1" name="extra_time[]" value="More delivery">
+                                <label for="extra_time_1">More client delivery/serving more people</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="extra_time_2" name="extra_time[]" value="Marketing">
+                                <label for="extra_time_2">Marketing and business development</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="extra_time_3" name="extra_time[]" value="Create products">
+                                <label for="extra_time_3">Create new products/programmes</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="extra_time_4" name="extra_time[]" value="Time off">
+                                <label for="extra_time_4">Finally take time off without guilt</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="extra_time_5" name="extra_time[]" value="Strategy">
+                                <label for="extra_time_5">Focus on strategy instead of execution</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="navigation-buttons">
+                        <button type="button" class="btn btn-previous" onclick="previousPage()">Previous</button>
+                        <button type="button" class="btn btn-next" onclick="nextPage()">Next</button>
+                    </div>
+                </div>
+
+                <!-- PAGE 10: About Your Business -->
+                <div class="page" data-page="10">
+                    <div class="page-indicator">Page 10 of 10</div>
+                    <div class="section-header">
+                        <h2>About Your Business</h2>
+                        <p>Help us understand what makes you unique</p>
+                    </div>
+                    <div class="question">
+                        <label class="question-label">
+                            29. Tell me about your business in your own words - what you do, who you serve, and what makes your approach unique: <span class="required">*</span>
+                        </label>
+                        <textarea name="business_description" required placeholder="Take your time with this one - the more detail, the better your audit will be..."></textarea>
+                    </div>
+                    <div class="question">
+                        <label class="question-label">
+                            30. What's working well in your business right now that you want to protect/enhance? <span class="required">*</span>
+                        </label>
+                        <textarea name="what_works" required placeholder="What are you proud of? What's already bringing results?"></textarea>
+                    </div>
+                    <div class="question">
+                        <label class="question-label">
+                            31. What makes your job harder than it should be? <span class="required">*</span>
+                        </label>
+                        <textarea name="job_harder" required placeholder="What frustrates you? What feels like unnecessary friction?"></textarea>
+                    </div>
+                    <div class="question">
+                        <label class="question-label">
+                            32. Is there anything else I should know to give you the most useful recommendations?
+                        </label>
+                        <textarea name="anything_else" placeholder="Any additional context that would help..."></textarea>
+                    </div>
+                    <div class="navigation-buttons">
+                        <button type="button" class="btn btn-previous" onclick="previousPage()">Previous</button>
+                        <button type="button" class="btn btn-submit" onclick="submitForm(event)">Get My AI Audit</button>
+                    </div>
+                    <div class="loading" id="loading">
+                        <p>Submitting your assessment... This may take a moment.</p>
+                    </div>
+                    <div class="success-message" id="successMessage">
+                        <h3>✅ Assessment Submitted Successfully!</h3>
+                        <p>Thank you! Your personalised AI Audit will be ready within 24-48 hours.</p>
+                        <p>Check your email for confirmation and next steps.</p>
+                    </div>
+                    <div class="error-message" id="errorMessage">
+                        <h3>⚠️ Oops! Something went wrong.</h3>
+                        <p id="errorText">There was an error submitting your assessment. Please try again or contact support.</p>
                     </div>
                 </div>
 
@@ -1536,6 +1483,23 @@
             radio.addEventListener('change', function() {
                 teamQuestions.classList.toggle('active', this.value === 'Yes');
             });
+        });
+
+        // Show/hide primary social link input based on platform selection
+        const primarySocialSelect = document.querySelector('select[name="primary_social_platform"]');
+        const primarySocialLinkQuestion = document.getElementById('primary_social_link_question');
+
+        primarySocialSelect.addEventListener('change', function() {
+            const showLink = this.value && this.value !== 'None' && this.value !== '';
+            primarySocialLinkQuestion.style.display = showLink ? 'block' : 'none';
+            
+            // Update the input to be required if a platform is selected
+            const linkInput = document.querySelector('input[name="primary_social_link"]');
+            if (showLink) {
+                linkInput.setAttribute('required', 'required');
+            } else {
+                linkInput.removeAttribute('required');
+            }
         });
 
         // Navigation functions
